@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeHub Pro - Professional Trading Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+</head>
+<body>
+    <!-- ANIMATED BACKGROUND -->
+    <div class="background-wrapper">
+        <div class="gradient-bg"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <canvas id="particleCanvas"></canvas>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <i class="fas fa-chart-line"></i>
+                <span>TradeHub<span class="logo-pro">PRO</span></span>
+            </div>
+            
+            <div class="navbar-links">
+                <button class="nav-btn" onclick="navigate('home')"><i class="fas fa-home"></i>Home</button>
+                <button class="nav-btn" onclick="navigate('crypto')"><i class="fas fa-coins"></i>Crypto</button>
+                <button class="nav-btn" onclick="navigate('forex')"><i class="fas fa-globe"></i>Forex</button>
+                <button class="nav-btn premium-btn" onclick="openPremium()"><i class="fas fa-crown"></i>Premium</button>
+                <button class="nav-btn" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LIVE TICKER -->
+    <div class="ticker-wrapper">
+        <div class="ticker" id="ticker">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        
+        <!-- HOME PAGE -->
+        <section id="home" class="page active">
+            <div class="hero-wrapper">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Professional Trading
+                        <span class="gradient-text">Platform</span>
+                    </h1>
+                    <p class="hero-subtitle">Real-time crypto & forex with 500+ coins and 150+ currencies</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-number">500+</div>
+                                <div class="stat-text">Cryptocurrencies</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-globe"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-number">150+</div>
+                                <div class="stat-text">Currencies</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-number">Live</div>
+                                <div class="stat-text">Real-time Data</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-number">AI</div>
+                                <div class="stat-text">Market Analysis</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-large" onclick="navigate('crypto')">
+                            <i class="fas fa-arrow-right"></i> Explore Crypto Markets
+                        </button>
+                        <button class="btn btn-secondary btn-large" onclick="navigate('forex')">
+                            <i class="fas fa-arrow-right"></i> Explore Forex
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-chart">
+                    <canvas id="heroChartCanvas"></canvas>
+                </div>
+            </div>
+
+            <!-- FEATURES -->
+            <div class="features-section">
+                <h2 class="section-title">Why Choose TradeHub Pro?</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon gradient-bg-1"><i class="fas fa-rocket"></i></div>
+                        <h3>Lightning Fast</h3>
+                        <p>Real-time updates with millisecond precision</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon gradient-bg-2"><i class="fas fa-chart-line"></i></div>
+                        <h3>Professional Charts</h3>
+                        <p>Interactive charting with smooth animations</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon gradient-bg-3"><i class="fas fa-brain"></i></div>
+                        <h3>AI Insights</h3>
+                        <p>Advanced market analysis & sentiment tracking</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon gradient-bg-1"><i class="fas fa-shield"></i></div>
+                        <h3>Secure & Trusted</h3>
+                        <p>Enterprise-grade security protocols</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon gradient-bg-2"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>Mobile Optimized</h3>
+                        <p>Perfect experience on any device</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon gradient-bg-3"><i class="fas fa-bell"></i></div>
+                        <h3>Smart Alerts</h3>
+                        <p>Instant notifications on price changes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRYPTO PAGE -->
+        <section id="crypto" class="page">
+            <div class="page-header">
+                <div>
+                    <h1><i class="fas fa-coins"></i> Cryptocurrency Markets</h1>
+                    <p class="timestamp" id="cryptoTime">Loading...</p>
+                </div>
+                <div class="header-stats">
+                    <div class="header-stat">
+                        <span class="stat-label">Total Market Cap</span>
+                        <span class="stat-value" id="marketCap">$0</span>
+                    </div>
+                    <div class="header-stat">
+                        <span class="stat-label">24h Volume</span>
+                        <span class="stat-value" id="volume24h">$0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="cryptoSearch" placeholder="Search 500+ cryptocurrencies..." oninput="searchCrypto()">
+                </div>
+                <select class="filter-select" id="cryptoFilter" onchange="filterCrypto()">
+                    <option value="">All Cryptocurrencies</option>
+                    <option value="top50">Top 50</option>
+                    <option value="gainers">Top Gainers (24h)</option>
+                    <option value="losers">Top Losers (24h)</option>
+                </select>
+                <button class="btn btn-icon" onclick="loadCryptos()"><i class="fas fa-sync-alt"></i></button>
+            </div>
+
+            <div id="cryptoGrid" class="assets-grid">
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading cryptocurrencies...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRYPTO DETAIL -->
+        <section id="cryptoDetail" class="page">
+            <button class="btn-back" onclick="navigate('crypto')"><i class="fas fa-arrow-left"></i> Back</button>
+            
+            <div class="detail-header">
+                <div class="detail-title">
+                    <img id="cryptoLogo" src="" alt="" class="detail-logo">
+                    <div>
+                        <h1 id="cryptoName">Bitcoin</h1>
+                        <span class="detail-badge" id="cryptoSymbol">BTC</span>
+                    </div>
+                </div>
+                <div class="detail-price">
+                    <h2 id="cryptoPrice">$0.00</h2>
+                    <span id="cryptoChange" class="price-badge positive">+0%</span>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card-large">
+                    <span class="stat-label">Market Cap</span>
+                    <span class="stat-value-large" id="cryptoMarketCap">$0</span>
+                </div>
+                <div class="stat-card-large">
+                    <span class="stat-label">24h Volume</span>
+                    <span class="stat-value-large" id="cryptoVolume">$0</span>
+                </div>
+                <div class="stat-card-large">
+                    <span class="stat-label">24h High</span>
+                    <span class="stat-value-large" id="cryptoHigh">$0</span>
+                </div>
+                <div class="stat-card-large">
+                    <span class="stat-label">24h Low</span>
+                    <span class="stat-value-large" id="cryptoLow">$0</span>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <h3>Price Chart - 7 Days</h3>
+                <canvas id="cryptoDetailChart"></canvas>
+            </div>
+
+            <div class="ai-box premium-locked" id="cryptoAI">
+                <div class="premium-overlay" id="cryptoAILock"></div>
+                <h3><i class="fas fa-brain"></i> AI Market Analysis</h3>
+                <p id="cryptoAIText">Loading advanced market analysis...</p>
+            </div>
+
+            <div class="trade-section">
+                <h3><i class="fas fa-exchange-alt"></i> Start Trading</h3>
+                <div class="trade-grid">
+                    <a href="https://www.binance.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> Binance
+                    </a>
+                    <a href="https://www.bybit.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> Bybit
+                    </a>
+                    <a href="https://www.kucoin.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> KuCoin
+                    </a>
+                    <a href="https://www.crypto.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> Crypto.com
+                    </a>
+                    <a href="https://www.coinbase.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> Coinbase
+                    </a>
+                    <a href="https://www.kraken.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> Kraken
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOREX PAGE -->
+        <section id="forex" class="page">
+            <div class="page-header">
+                <div>
+                    <h1><i class="fas fa-globe"></i> Forex Markets</h1>
+                    <p class="timestamp" id="forexTime">Loading...</p>
+                </div>
+                <div class="header-stats">
+                    <div class="header-stat">
+                        <span class="stat-label">Status</span>
+                        <span class="stat-value"><span class="live-indicator"></span> Live</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="forexSearch" placeholder="Search 150+ currency pairs..." oninput="searchForex()">
+                </div>
+                <select class="filter-select" id="forexFilter" onchange="filterForex()">
+                    <option value="">All Pairs</option>
+                    <option value="major">Major Pairs</option>
+                    <option value="minor">Minor Pairs</option>
+                    <option value="exotic">Exotic Pairs</option>
+                </select>
+                <button class="btn btn-icon" onclick="loadForex()"><i class="fas fa-sync-alt"></i></button>
+            </div>
+
+            <div id="forexGrid" class="assets-grid">
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading forex rates...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOREX DETAIL -->
+        <section id="forexDetail" class="page">
+            <button class="btn-back" onclick="navigate('forex')"><i class="fas fa-arrow-left"></i> Back</button>
+            
+            <div class="detail-header">
+                <div class="detail-title">
+                    <div class="currency-pair">
+                        <span class="currency-badge" id="forexFrom">EUR</span>
+                        <i class="fas fa-exchange-alt"></i>
+                        <span class="currency-badge" id="forexTo">USD</span>
+                    </div>
+                    <div>
+                        <h1 id="forexPair">EUR/USD</h1>
+                        <span class="detail-badge" id="forexType">Major</span>
+                    </div>
+                </div>
+                <div class="detail-price">
+                    <h2 id="forexRate">1.0000</h2>
+                    <span id="forexChange" class="price-badge positive">+0%</span>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card-large">
+                    <span class="stat-label">Bid</span>
+                    <span class="stat-value-large" id="forexBid">0.0000</span>
+                </div>
+                <div class="stat-card-large">
+                    <span class="stat-label">Ask</span>
+                    <span class="stat-value-large" id="forexAsk">0.0000</span>
+                </div>
+                <div class="stat-card-large">
+                    <span class="stat-label">Spread</span>
+                    <span class="stat-value-large" id="forexSpread">0.0000</span>
+                </div>
+                <div class="stat-card-large">
+                    <span class="stat-label">Volatility</span>
+                    <span class="stat-value-large" id="forexVolatility">0%</span>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <h3>Exchange Rate - 7 Days</h3>
+                <canvas id="forexDetailChart"></canvas>
+            </div>
+
+            <div class="ai-box premium-locked" id="forexAI">
+                <div class="premium-overlay" id="forexAILock"></div>
+                <h3><i class="fas fa-brain"></i> AI Trend Analysis</h3>
+                <p id="forexAIText">Loading market analysis...</p>
+            </div>
+
+            <div class="trade-section">
+                <h3><i class="fas fa-exchange-alt"></i> Trade Forex</h3>
+                <div class="trade-grid">
+                    <a href="https://www.exness.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> Exness
+                    </a>
+                    <a href="https://www.octafx.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> OctaFX
+                    </a>
+                    <a href="https://www.icmarkets.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> IC Markets
+                    </a>
+                    <a href="https://www.pepperstone.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> Pepperstone
+                    </a>
+                    <a href="https://www.axitrader.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> AxiTrader
+                    </a>
+                    <a href="https://www.fxopen.com" target="_blank" class="trade-btn">
+                        <i class="fas fa-link"></i> FXOpen
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PREMIUM MODAL -->
+    <div id="premiumModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePremium()"><i class="fas fa-times"></i></button>
+            
+            <div class="modal-header">
+                <i class="fas fa-crown modal-icon"></i>
+                <h2>Unlock Premium Features</h2>
+                <p>Get exclusive access to advanced tools and analysis</p>
+            </div>
+
+            <ul class="features-list">
+                <li><i class="fas fa-check"></i> <strong>AI Market Analysis</strong> - Deep market insights</li>
+                <li><i class="fas fa-check"></i> <strong>Price Alerts</strong> - Real-time notifications</li>
+                <li><i class="fas fa-check"></i> <strong>Portfolio Tracking</strong> - Track your investments</li>
+                <li><i class="fas fa-check"></i> <strong>Advanced Charts</strong> - Professional tools</li>
+                <li><i class="fas fa-check"></i> <strong>24/7 Support</strong> - Priority access</li>
+            </ul>
+
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Monthly</h3>
+                    <div class="price">\$9.99<span>/mo</span></div>
+                    <button class="btn btn-primary" onclick="upgradePremium('monthly')">Upgrade Now</button>
+                </div>
+                <div class="price-card featured">
+                    <span class="badge">BEST VALUE</span>
+                    <h3>Yearly</h3>
+                    <div class="price">\$79.99<span>/year</span></div>
+                    <button class="btn btn-primary" onclick="upgradePremium('yearly')">Upgrade Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
