@@ -1261,3 +1261,23 @@ body {
     .header-stats { width: 100%; flex-direction: column; }
     .assets-grid { grid-template-columns: 1fr; }
     .detail-stats-grid { grid-template-columns:
+            .detail-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .modal-content { padding: 2rem; }
+    .navbar-links { flex-wrap: wrap; gap: 0.5rem; }
+    .nav-btn { padding: 0.6rem 1rem; font-size: 0.95rem; }
+    .hero-subtitle { font-size: 1.1rem; }
+    .stat-card { padding: 1.5rem; }
+    .stat-icon { width: 50px; height: 50px; font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+    .main-content { padding: 150px 1rem 1.5rem; }
+    .navbar-container { padding: 0 1rem; }
+    .hero-title { font-size: 2rem; }
+    .assets-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+    .btn-large { padding: 1rem 1.5rem; font-size: 1rem; }
+    .detail-header { padding: 2rem 1.5rem; }
+    .detail-price h2 { font-size: 2.5rem; }
+    .hero-wrapper { padding: 0; }
+    .stats-grid { grid-template-columns: 1fr; }
+                   }
